@@ -492,7 +492,8 @@ export default class SearchPanes {
 			this.dom.panes.append(pane.dom.container);
 		}
 
-		this.dom.container.children().detach();
+		// Remove everything - need to use childNodes to make sure we get text nodes
+		this.dom.container[0].childNodes.forEach(el => el.remove());
 
 		// Attach everything to the document
 		this.dom.container
