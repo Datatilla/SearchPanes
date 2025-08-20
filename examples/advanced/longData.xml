@@ -6,15 +6,16 @@
 <js lib="jquery datatables searchpanes select">
 <![CDATA[
 
+// Modify the source table before initialisation
 $('#example td')
 	.eq(2)
 	.html(
-		'Hi,mynameissandy.Thisiareallylongstringtotestwhathappenswhenimakeoneofthecellshuge.Hi,mynameissandy.Thisiareallylongstringtotestwhathappenswhenimakeoneofthecellshuge.Hi,mynameissandy.Thisiareallylongstringtotestwhathappenswhenimakeoneofthecellshuge.'
+		'A really long string to demonstrate what happens when one of the cells has a long string in it'
 	);
 
 $('#example').DataTable({
 	layout: {
-		top1: 'searchPanes'
+		top: 'searchPanes'
 	}
 });
 
@@ -24,12 +25,13 @@ $('#example').DataTable({
 <js-vanilla>
 <![CDATA[
 
+// Modify the source table before initialisation
 document.querySelectorAll('#example td')[2].innerHTML =
-	'Hi,mynameissandy.Thisiareallylongstringtotestwhathappenswhenimakeoneofthecellshuge.Hi,mynameissandy.Thisiareallylongstringtotestwhathappenswhenimakeoneofthecellshuge.Hi,mynameissandy.Thisiareallylongstringtotestwhathappenswhenimakeoneofthecellshuge.';
+	'A really long string to demonstrate what happens when one of the cells has a long string in it';
 
 new DataTable('#example', {
 	layout: {
-		top1: 'searchPanes'
+		top: 'searchPanes'
 	}
 });
 

@@ -565,6 +565,13 @@ export default class SearchPane {
 					: ''
 			);
 		this.adjustTopRow();
+
+		// Force the width for the table to be 100% - the use of flexbox for the content
+		// in each row makes this difficult as the content will expand to fit it, causing
+		// the host table to widen and we need to force it smaller.
+		this.dom.dtP.css('table-layout', 'fixed');
+		this.dom.dtP.css('width', '100%');
+		this.dom.dtP.find('colgroup col').css('width', '100%');
 	}
 
 	/**
@@ -1441,7 +1448,7 @@ export default class SearchPane {
 			this.s.customPaneSettings !== null && this.s.customPaneSettings.dtOpts ?
 				this.s.customPaneSettings.dtOpts :
 				{},
-			layout,
+			layout
 		));
 
 		this.dom.dtP.addClass(this.classes.table);

@@ -196,6 +196,8 @@ div.dt-button-collection{
 
 div.dtsp-panesContainer {
 	margin-bottom: 1em;
+	max-width: 100%;
+	flex-grow: 1;
 }
 
 div.dtsp-searchPane {
@@ -208,8 +210,12 @@ div.dtsp-searchPane {
 			padding: 0;
 		}
 
-		div.dt-layout-row:not(.dt-layout-table) {
+		div.dt-layout-row {
 			margin: 0;
+
+			div.dt-scroll {
+				margin: 0;
+			}
 		}
 
 		div.dt-scroll-head,
