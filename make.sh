@@ -23,8 +23,16 @@ DT_SRC=$(dirname $(dirname $(pwd)))
 DT_BUILT="${DT_SRC}/built/DataTables"
 . $DT_SRC/build/include.sh
 
+# Create OUT_DIR
+if [ ! -d $OUT_DIR ]; then
+	mkdir $OUT_DIR
+fi
+
 # Copy CSS
-rsync -r css $OUT_DIR
+if [ -d $OUT_DIR/css ]; then
+	rm -r $OUT_DIR/css
+fi
+cp -r css $OUT_DIR
 css_frameworks searchPanes $OUT_DIR/css
 
 if [ ! -d "node_modules" ]; then
@@ -35,29 +43,31 @@ if [ ! -d "node_modules/@rollup" ]; then
     npm install
 fi
 
-# Copy images
-#rsync -r images $OUT_DIR
-
 # FASTER
-node_modules/typescript/bin/tsc
+#node_modules/typescript/bin/tsc
+#exit
 
 #SLOWER
-# node_modules/typescript/bin/tsc src/searchPanes.ts --module ES6
-# node_modules/typescript/bin/tsc src/searchPane.ts --module ES6
-# node_modules/typescript/bin/tsc src/index.ts --module ES6
-# node_modules/typescript/bin/tsc src/paneType.ts --module ES6
-# node_modules/typescript/bin/tsc src/panesType.ts --module ES6
-# node_modules/typescript/bin/tsc src/searchPanes.dataTables.ts --module ES6
-# node_modules/typescript/bin/tsc src/searchPanes.bootstrap4.ts --module ES6
-# node_modules/typescript/bin/tsc src/searchPanes.bootstrap.ts --module ES6
-# node_modules/typescript/bin/tsc src/searchPanes.foundation.ts --module ES6
-# node_modules/typescript/bin/tsc src/searchPanes.jqueryui.ts --module ES6
-# node_modules/typescript/bin/tsc src/searchPanes.semanticui.ts --module ES6
+node_modules/typescript/bin/tsc src/searchPanes.ts --module ES6
+node_modules/typescript/bin/tsc src/searchPane.ts --module ES6
+node_modules/typescript/bin/tsc src/index.ts --module ES6
+node_modules/typescript/bin/tsc src/paneType.ts --module ES6
+node_modules/typescript/bin/tsc src/panesType.ts --module ES6
+node_modules/typescript/bin/tsc src/searchPanes.dataTables.ts --module ES6
+node_modules/typescript/bin/tsc src/searchPanes.bootstrap4.ts --module ES6
+node_modules/typescript/bin/tsc src/searchPanes.bootstrap.ts --module ES6
+node_modules/typescript/bin/tsc src/searchPanes.foundation.ts --module ES6
+node_modules/typescript/bin/tsc src/searchPanes.jqueryui.ts --module ES6
+node_modules/typescript/bin/tsc src/searchPanes.semanticui.ts --module ES6
 
 # Copy JS
 HEADER="$(head -n 3 src/index.ts)"
 
-rsync -r src/*.js $OUT_DIR/js
+if [ -d $OUT_DIR/js ]; then
+	rm -r $OUT_DIR/js
+fi
+mkdir $OUT_DIR/js
+cp src/*.js $OUT_DIR/js/
 js_frameworks searchPanes $OUT_DIR/js "jquery datatables.net-FW datatables.net-searchpanes"
 
 OUT=$OUT_DIR ./node_modules/.bin/rollup $OUT_DIR/js/index.js \
@@ -83,7 +93,7 @@ rm src/*.d.ts
 
 # Copy Types
 if [ -d $OUT_DIR/types ]; then
-	rm -r $OUT_DIR/types		
+	rm -r $OUT_DIR/types
 fi
 mkdir $OUT_DIR/types
 
@@ -92,7 +102,10 @@ cp types/* $OUT_DIR/types
 js_wrap $OUT_DIR/js/dataTables.searchPanes.js "jquery datatables.net"
 
 # Copy and build examples
-rsync -r examples $OUT_DIR
+if [ -d $OUT_DIR/examples ]; then
+	rm -r $OUT_DIR/examples		
+fi
+cp -r examples $OUT_DIR
 examples_process $OUT_DIR/examples
 
 # Readme and license
